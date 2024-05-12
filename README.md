@@ -8,6 +8,8 @@
 ```
 $ git clone https://github.com/AbdelrahmanAbounida/flask-chat-task
 $ cd flask-chat-task
+$ virtualenv venv # or create environment the way u prefer. ex: poetry
+$ source venv/script/activate # mac/ubuntu 
 $ pip install -r requirements.txt
 ```
 
