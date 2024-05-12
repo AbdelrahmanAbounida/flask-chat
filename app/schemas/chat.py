@@ -28,3 +28,6 @@ class CreateMessageResponse(BaseModel):
 class GetMessagesResponse(BaseModel):
     error: bool
     messages: list[MessageSchema]
+
+class DeleteChatResponse(CreateMessageResponse):
+    pass 

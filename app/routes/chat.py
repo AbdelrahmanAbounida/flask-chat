@@ -1,15 +1,15 @@
 from flask import Blueprint, request
 from flask_restful import Api, Resource
 from flask_swagger_ui import get_swaggerui_blueprint
+from app.services.chat_service import create_chat, create_message, delete_chat_by_id, get_all_chats, get_chat_by_id, get_messages_by_chat_id
+from app.utils.validators import custom_response, valiate_request_body, validate_api_key 
 from app.schemas.chat import (ChatSchema, 
                                    CreateChatResponse, 
-                                   CreateMessageResponse, 
+                                   CreateMessageResponse, DeleteChatResponse, 
                                    GetChatResponse, 
                                    GetMessagesResponse, 
                                    MessageSchema
                                    )
-from app.services.chat_service import create_chat, create_message, get_all_chats, get_messages_by_chat_id
-from app.utils.validators import custom_response, valiate_request_body, validate_api_key 
 import logging
 import os
 
@@ -32,9 +32,11 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 )
 
 # api initialization
+root_router_pb = Blueprint("RootRouter",__name__)
 chat_router_pb = Blueprint("ChatRouter",__name__)
 message_router_pb = Blueprint("MessageRouter",__name__)
 
+root_router_pb_api =Api(root_router_pb)
 chat_router_pb_api = Api(chat_router_pb)
 message_router_pb_api =Api(message_router_pb)
 
@@ -42,6 +44,18 @@ message_router_pb_api =Api(message_router_pb)
 chat_router_pb.register_blueprint(swaggerui_blueprint)
 message_router_pb.register_blueprint(swaggerui_blueprint)
 
+
+
+class RootRouter(Resource):
+    """ Main chat Router to handle Chat GET ops """
+   
+    def get(self):
+        """ return all chats """
+        try:
+            return custom_response({"message": "Hello from our flask chat app"}, 200)
+        except Exception as e:
+            logging.error(f"Root error: {e}")
+            return custom_response({"error": "Internal Server Error"}, 500)
 
 class ChatRouterGet(Resource):
     """ Main chat Router to handle Chat GET ops """
@@ -73,6 +87,24 @@ class ChatRouterPost(Resource):
             return custom_response({"error": "Failed to create new chat"}, 400)
         except Exception as e:
             logging.error(f"Create Chat error: {e}")
+            return custom_response({"error": "Internal Server Error"}, 500)
+
+class ChatRouterDelete(Resource):
+    """ Main Chat Router to handle Chat DELETE ops """
+    
+    @validate_api_key
+    def delete(self,chat_id:int):
+        """ delete specific chat """
+        try:
+            # delete chat 
+            delete_success = delete_chat_by_id(chat_id)
+            if not delete_success:
+                return custom_response({"error": "Failed to delete this chat, Please check your chat_id"}, 400) 
+            response_data = DeleteChatResponse(error=False,description=f"chat item has beed deleted successfully").model_dump_json()
+            return custom_response(response_data, 200)
+        
+        except Exception as e:
+            logging.error(f"Get messages error: {e}")
             return custom_response({"error": "Internal Server Error"}, 500)
     
         
@@ -108,12 +140,19 @@ class MessageRouterPost(Resource):
         except Exception as e:
             logging.error(f"Get messages error: {e}")
             return custom_response({"error": "Internal Server Error"}, 500)
-      
+    
 
-# routing
 
+
+# root routing 
+root_router_pb_api.add_resource(RootRouter, '/')
+
+# chat routing
 chat_router_pb_api.add_resource(ChatRouterGet, '/chat/all', methods=['GET'])
 chat_router_pb_api.add_resource(ChatRouterPost, '/chat/add-chat', methods=['POST'])
+chat_router_pb_api.add_resource(ChatRouterDelete, '/chat/<int:chat_id>', methods=['DELETE'])
 
+# message routing 
 message_router_pb_api.add_resource(MessageRouterGet, '/message/<int:chat_id>')
 message_router_pb_api.add_resource(MessageRouterPost, '/message/add-message')
+

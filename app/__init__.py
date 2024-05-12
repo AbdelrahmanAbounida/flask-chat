@@ -30,7 +30,8 @@ def create_app(config_name: Literal["default","testing","production","developmen
     })
 
     # register blueprints
-    from app.routes.chat import chat_router_pb, message_router_pb
+    from app.routes.chat import chat_router_pb, message_router_pb,root_router_pb
+    app.register_blueprint(root_router_pb)
     app.register_blueprint(chat_router_pb)
     app.register_blueprint(message_router_pb)
 
