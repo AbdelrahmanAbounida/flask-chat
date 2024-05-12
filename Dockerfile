@@ -7,6 +7,9 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD ["python3", "manage.py", "run", "--host=0.0.0.0"]
+# Create the SQLite database
+RUN python3 manage.py create_db
 
-# docker build -t chat_task .
+EXPOSE 5000
+
+CMD ["python3", "manage.py", "run", "--host=0.0.0.0"]

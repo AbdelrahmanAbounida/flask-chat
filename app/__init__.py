@@ -25,7 +25,7 @@ def create_app(config_name: Literal["default","testing","production","developmen
     CORS(app)
     CORS(app, resources={
         r"/*":{
-        "origins":"*"
+        "origins":"*",
         }
     })
 
