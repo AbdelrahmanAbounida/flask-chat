@@ -1,6 +1,5 @@
 import os
 import unittest
-from flask_migrate import Migrate # , MigrateCommand
 from flask.cli import FlaskGroup
 from app import create_app, db
 from rich.console import Console
@@ -10,11 +9,9 @@ load_dotenv()
 
 
 app = create_app(os.getenv('CURRENT_ENV') or 'default')
-# migrate = Migrate(app, db)
 cli = FlaskGroup(app)
 console = Console()
 
-# manager.add_command('db', MigrateCommand)
 
 @cli.command("run the app")
 def run():

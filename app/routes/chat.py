@@ -22,7 +22,7 @@ swagger_dir = "/".join(str(basedir).split("/")[0:-1])+"/assets/swagger.json"
 
 
 SWAGGER_URL = '/apidocs'  
-API_URL =  "/static/swagger.json" # "https://petstore.swagger.io/v2/swagger.json" # 
+API_URL =  "/static/swagger.json" 
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,  
     API_URL,
@@ -117,10 +117,3 @@ chat_router_pb_api.add_resource(ChatRouterPost, '/chat/add-chat', methods=['POST
 
 message_router_pb_api.add_resource(MessageRouterGet, '/message/<int:chat_id>')
 message_router_pb_api.add_resource(MessageRouterPost, '/message/add-message')
-
-# Register Swagger documentation
-# swagger.docs(chat_router_pb_api, apiVersion='0.1')
-# swagger.docs(message_router_pb_api, apiVersion='0.1')
-
-# AQ_Transcript_API.add_resource(QuestionAnswerBot, "/qa") # <int:chunk_id>QuestionAnswerBot
-# AQ_Transcript_API.add_resource(Test, "/") # <int:chunk_id>QuestionAnswerBot
