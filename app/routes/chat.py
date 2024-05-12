@@ -1,15 +1,15 @@
 from flask import Blueprint, request
 from flask_restful import Api, Resource
 from flask_swagger_ui import get_swaggerui_blueprint
-from app.main.schemas.chat import (ChatSchema, 
+from app.schemas.chat import (ChatSchema, 
                                    CreateChatResponse, 
                                    CreateMessageResponse, 
                                    GetChatResponse, 
                                    GetMessagesResponse, 
                                    MessageSchema
                                    )
-from app.main.services.chat_service import create_chat, create_message, get_all_chats, get_messages_by_chat_id
-from app.main.utils.validators import custom_response, valiate_request_body, validate_api_key 
+from app.services.chat_service import create_chat, create_message, get_all_chats, get_messages_by_chat_id
+from app.utils.validators import custom_response, valiate_request_body, validate_api_key 
 import logging
 import os
 

@@ -1,5 +1,5 @@
-from app.main.models import Chat, Message
-from app.main import db 
+from app.models import Chat, Message
+from app import db 
 from typing import Union 
 import logging
 

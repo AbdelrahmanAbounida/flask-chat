@@ -2,7 +2,7 @@ import os
 import unittest
 from flask_migrate import Migrate # , MigrateCommand
 from flask.cli import FlaskGroup
-from app.main import create_app, db
+from app import create_app, db
 from rich.console import Console
 
 from dotenv import load_dotenv
