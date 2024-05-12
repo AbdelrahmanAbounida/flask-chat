@@ -1,0 +1,237 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Chat application-Task",
+    "description": "API documentation for Chat application"
+  },
+  "basePath": "/",
+  "schemes": ["http"],
+  "tags": [
+    {
+      "name": "ChatRouter",
+      "description": "Endpoints for chat operations"
+    },
+    {
+      "name": "MessageRouter",
+      "description": "Endpoints for message operations"
+    }
+  ],
+  "paths": {
+    "/chat/all": {
+      "get": {
+        "tags": ["ChatRouter"],
+        "summary": "Get all chat instances from the database",
+        "responses": {
+          "200": {
+            "description": "Chat instances fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/ChatGetResponseSchema"
+            }
+          }
+        },
+        "security": [{ "Api-Key": [] }]
+      }
+    },
+    "/chat/add-chat": {
+      "post": {
+        "tags": ["ChatRouter"],
+        "summary": "Create new chat instance",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Chat object to be added to the database",
+            "required": true,
+            "schema": { "$ref": "#/definitions/ChatSchema" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat instance created successfully",
+            "schema": {
+              "$ref": "#/definitions/ChatPostSchema"
+            }
+          },
+          "400": {
+            "description": "Invalid Input fields",
+            "schema": {
+              "$ref": "#/definitions/ErrorSchema"
+            }
+          }
+        },
+        "security": [{ "Api-Key": [] }]
+      }
+    },
+    "/message/{chat_id}": {
+      "get": {
+        "tags": ["MessageRouter"],
+        "summary": "Get all Messages of a specific chat",
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "ID of the chat",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat Messages",
+            "schema": {
+              "$ref": "#/definitions/MessageGetResponseSchema"
+            }
+          }
+        },
+        "security": [{ "Api-Key": [] }]
+      }
+    },
+    "/message/add-message": {
+      "post": {
+        "tags": ["MessageRouter"],
+        "summary": "Add Message to chat instance",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Chat Message to be added to the chat instance",
+            "required": true,
+            "schema": { "$ref": "#/definitions/MessageSchema" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Done",
+            "schema": {
+              "$ref": "#/definitions/MessagePostResponseSchema"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/ErrorSchema"
+            }
+          }
+        },
+        "security": [{ "Api-Key": [] }]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Api-Key": { "type": "apiKey", "name": "Api-Key", "in": "header" }
+  },
+  "definitions": {
+    "ChatSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": ["name"]
+    },
+    "ChatPostSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": ["name"]
+    },
+    "ChatGetResponseSchema": {
+      "type": "object",
+      "properties": {
+        "chats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ChatPostResponseSchema": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "MessageSchema": {
+      "type": "object",
+      "properties": {
+        "senderName": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "chat_id": {
+          "type": "integer"
+        }
+      },
+      "required": ["senderName", "content", "chat_id"]
+    },
+    "MessageGetResponseSchema": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "senderName": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "chat_id": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "MessagePostResponseSchema": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "ErrorSchema": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
