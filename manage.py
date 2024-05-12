@@ -16,7 +16,7 @@ console = Console()
 @cli.command("run the app")
 def run():
     PORT = int(os.getenv('PORT', '5000'))
-    app.run(port=PORT,debug=True)
+    app.run(port=PORT)
 
 
 @cli.command("recreate_db")
