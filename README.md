@@ -29,3 +29,10 @@ $ export FLASK_DEBUG=1
 $ export FLASK_APP=manage.py
 $ python3 manage.py run
 ```
+
+OR
+
+```
+$ docker build -t chat_task .
+$ docker run -it -p 5000:5000 chat_task
+```
