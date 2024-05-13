@@ -19,12 +19,12 @@ def create_app(config_name: Literal["default","testing","production","developmen
     db.init_app(app)
 
     # Allow cors
-    # CORS(app)
-    # CORS(app, resources={
-    #     r"/*":{
-    #     "origins":"*",
-    #     }
-    # })
+    CORS(app)
+    CORS(app, resources={
+        r"/*":{
+        "origins":"*",
+        }
+    })
 
     # register blueprints
     from app.routes.chat import chat_router_pb, message_router_pb,root_router_pb
