@@ -56,3 +56,8 @@ if __name__ == '__main__':
 
 # export FLASK_DEBUG=1
 # export FLASK_APP=manage.py
+
+# ollama run gemma:2b
+
+# docker pull ollama/ollama
+# docker run -d --gpus=all -p 11434:11434 --name ollama ollama/ollama

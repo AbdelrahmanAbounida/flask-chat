@@ -1,0 +1,23 @@
+version: "1.0"
+
+services:
+  # olama:
+  #   image: ollama/ollama:latest
+  #   container_name: ollama-container
+  #   networks:
+  #     - net
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    # networks:
+    #   - net
+    # depends_on:
+    #   - olama
+
+networks:
+  net:
