@@ -15,8 +15,44 @@ console = Console()
 
 @cli.command("run the app")
 def run():
+    """ development run """
     PORT = int(os.getenv('PORT', '5000'))
     app.run(port=PORT)
+
+
+
+@cli.command("prod_run")
+def prod_run():
+    """ production run >> with docker """
+    host = '0.0.0.0'
+    port = int(os.getenv('PORT', 5000))
+    workers = int(os.getenv('GUNICORN_WORKERS', '4'))  # Number of Gunicorn worker processes
+
+    from gunicorn.app.base import BaseApplication
+
+    class StandaloneApplication(BaseApplication):
+        def __init__(self, app, options=None):
+            self.options = options or {}
+            self.application = app
+            super().__init__()
+
+        def load_config(self):
+            config = {key: value for key, value in self.options.items()
+                      if key in self.cfg.settings and value is not None}
+            for key, value in config.items():
+                self.cfg.set(key.lower(), value)
+
+        def load(self):
+            return self.application
+
+    options = {
+        'bind': f'{host}:{port}',
+        'workers': workers,
+        'accesslog': '-',
+        'loglevel': 'debug' 
+    }
+
+    StandaloneApplication(app, options).run()
 
 
 @cli.command("recreate_db")
