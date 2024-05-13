@@ -20,7 +20,6 @@ def run():
     app.run(port=PORT)
 
 
-
 @cli.command("prod_run")
 def prod_run():
     """ production run >> with docker """
@@ -54,7 +53,6 @@ def prod_run():
 
     StandaloneApplication(app, options).run()
 
-
 @cli.command("recreate_db")
 def recreate_db():
     """
@@ -75,7 +73,6 @@ def create_db():
     db.create_all()
     db.session.commit()
     console.print("database has been created successfully", style="bold green")
-
 
 @cli.command
 def test():

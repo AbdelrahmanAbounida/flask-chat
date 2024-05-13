@@ -89,6 +89,38 @@
         "security": [{ "Api-Key": [] }]
       }
     },
+    "/prompt": {
+      "post": {
+        "tags": ["PromptRouter"],
+        "summary": "Handle Prompt answer",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PromptSchema" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat instance created successfully",
+            "schema": {
+              "$ref": "#/definitions/ChatPostSchema"
+            }
+          },
+          "400": {
+            "description": "Invalid Input fields",
+            "schema": {
+              "$ref": "#/definitions/ErrorSchema"
+            }
+          }
+        },
+        "security": [{ "Api-Key": [] }]
+      }
+    },
     "/message/{chat_id}": {
       "get": {
         "tags": ["MessageRouter"],
@@ -158,6 +190,15 @@
         }
       },
       "required": ["name"]
+    },
+    "PromptSchema": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string"
+        }
+      },
+      "required": ["prompt"]
     },
     "ChatPostSchema": {
       "type": "object",
