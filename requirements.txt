@@ -1,5 +1,4 @@
 Flask==3.0.3
-Flask_Bcrypt==1.0.1
 flask_cors==4.0.1
 flask_migrate==4.0.7
 flask_restful==0.3.10

@@ -14,3 +14,7 @@ EXPOSE 5000
 
 # CMD ["python3", "manage.py", "run", "--host=0.0.0.0"]
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "manage:app"]
+
+
+# RUN python3 manage.py create_db && \
+#     gunicorn -b 0.0.0.0:5000 manage:app
