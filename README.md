@@ -1,4 +1,4 @@
-# Flask Chat Task
+# Flask Chat 
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-3776AB?logo=python)](https://www.python.org/downloads/release/python-360/)
 
 
